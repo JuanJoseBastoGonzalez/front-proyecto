@@ -1,0 +1,15 @@
+.f{display: flex;}
+
+.content {
+    display: flex;
+    margin-left: 16rem;
+    margin-right: auto;
+    position: absolute;
+    z-index: 5;
+   
+  }
+ .prubea{
+  display: flex;
+  flex-direction: column;
+  height:90vh;
+}

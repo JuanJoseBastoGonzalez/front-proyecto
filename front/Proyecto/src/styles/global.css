@@ -1,0 +1,42 @@
+:root {
+    --color1:  black; /* Negro */
+    --color2:  #d0a088 ; /* rosita */
+    --color3:  #6a6676; /* gris oscurito */
+    --color4:#938e98 ; /* Gris claro */
+    --color5:  #583b3d; /* marron */
+    --color6: #8c5b3f;/*marron claro*/
+    --color7:  #926457 ;/*rosita fucsica*/
+    --color8: #ffff;/*blanco*/
+  }
+.m0{
+    margin: 0;
+  
+}
+.fcb{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+ 
+}
+.cp{
+    cursor: pointer;
+}
+.fcc{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.gcc{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.lb{
+    font-weight: bold;
+}
+.pgi {
+    height: 93.4vh;
+    font-family: Arial, sans-serif;
+}
