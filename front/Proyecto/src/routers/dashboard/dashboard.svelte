@@ -7,25 +7,136 @@
   import { rol } from "../../stores/Stores";
   import Employed from "../../components/products.svelte";
   import { showProdcts } from "../../stores/Stores";
-
+  // import EmplyescCar from "../../components/EmplyescCar.svelte";
+  import magnifyingglass from "../../assets/magnifyingglass.svg";
+  import productLogo from "../../assets/logoProducto.webp"
+  import payMethod from "../../assets/pay.webp"
+  import office from "../../assets/ofice.webp"
+  import employe from "../../assets/jobgroup.webp"
+  function toggProduct() {
+    showProdcts.update((value) => !value);
+  }
   import "./Dashboard.css";
+
 </script>
 
-<div class="prubea">
-    <Navbar />
-   <div class="f ">
-    {#if $show}
-    <Sidebar />
-    {/if}
-
-    <div class="content">
-      {#if $showProdcts}
-        <Employed />
-      {/if}
+<div>
+  <div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+      <div class="col-md-8">
+        <div class="search">
+          <i class="fa fa-search"></i>
+          <input type="text" class="form-control" placeholder="Search">
+          <button class="btn btn-primary">Search</button>
+        </div>
+      </div>
     </div>
+  </div>
+
+ 
+  <!-- <div class="row ">
+      <p class="col-xs-6 col-md-4" on:click={toggProduct}>Empleados</p>
+      <img src="" alt="" />
+    </div>
+    <div class="cards " >
+      <p class="col-xs-6 col-md-4" on:click={toggProduct}>Productos</p>
+    </div>
+    <div class="cards">
+      <p class="col-xs-6 col-md-4" on:click={toggProduct}>empleados</p>
+    </div>
+    <div class="cards">
+      <p class="col-xs-6 col-md-4" on:click={toggProduct}>empleados</p>
+    </div>
+  -->
+
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="row">
+          <h2 class="my-title">Ecommerce - Page</h2>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="d-flex">
+                <div class="card card-slide cp"  on:click={toggProduct}>
+                    <img class="card-img-top" src={productLogo} alt="Card image cap" >
+                    <div class="card-body">
+                        <h5 class="card-title">Productos</h5>
+                    </div>
+                </div>
+                <div class="card card-slide">
+                    <img class="card-img-top" src={productLogo} alt="Card image cap" on:click={toggProduct}>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title 2</h5>
+                    </div>
+                </div>
+                <div class="card card-slide">
+                    <img class="card-img-top" src={productLogo} alt="Card image cap" on:click={toggProduct}>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title 3</h5>
+                    </div>
+                </div>
+                <div class="card card-slide">
+                    <img class="card-img-top" src={payMethod} alt="Card image cap" on:click={toggProduct}>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title 4</h5>
+                    </div>
+                </div>
+                <div class="card card-slide">
+                    <img class="card-img-top" src={employe} alt="Card image cap" on:click={toggProduct}>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title 5</h5>    
+                    </div>
+                </div>
+                <div class="card card-slide">
+                    <img class="card-img-top" src={office} alt="Card image cap" on:click={toggProduct}>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title 7</h5>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+<!--   <section class="p2">
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src=".../100px180/?text=Image cap" alt="Card image cap">
+      <div class="card-body">
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div>
+    
+  </section> -->
+
+ 
+</div>
+  <div class="row ">
+  </div>
+
+  
+  
+  <div class="content">
+    {#if $showProdcts}
+      <Employed />
+    {:else}
+      <!-- <EmplyescCar /> -->
+    {/if}
   </div>
   <div></div>
 
-  <!-- 
-  <a  href ="/" use:link>fsdfs</a> -->
-</div>

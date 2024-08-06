@@ -1,15 +1,142 @@
-.f{display: flex;}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
 
-.content {
-    display: flex;
-    margin-left: 16rem;
-    margin-right: auto;
-    position: absolute;
-    z-index: 5;
-   
-  }
- .prubea{
+* {
+  background-color: #05161A;
+  color: white;
+}
+
+body {
+  margin-top: 2%;
+  background-color: #eee;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+
+.search {
+  position: relative;
+  box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+
+}
+
+.search input {
+  height: 60px;
+  text-indent: 25px;
+  border: 2px solid #d6d4d4;
+
+
+}
+
+.search input:focus {
+  box-shadow: none;
+  border: 2px solid blue;
+}
+
+.search .fa-search {
+  position: absolute;
+  top: 20px;
+  left: 16px;
+
+}
+
+.search button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 50px;
+  width: 110px;
+  background: blue;
+
+}
+
+.my-title{
   display: flex;
-  flex-direction: column;
-  height:90vh;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.carousel {
+  margin-top: 5%;
+}
+
+.carousel-item {
+  display: flex;
+  justify-content: center;
+}
+
+.card-slide {
+  width: 15rem; 
+  margin: 0 10px; 
+}
+
+
+.carousel-inner {
+  display: flex;
+  align-items: center; 
+  padding: 20px; 
+}
+
+.d-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap; 
+}
+
+
+.carousel {
+  overflow-x: hidden;
+}
+
+.card-img-top{
+  padding: 5%;
+}
+
+.card-title {
+  font-size: 1.5rem; /* Tamaño del texto */
+  color: white;
+  font-weight: 600;
+  line-height: 1.2rem;
+  text-align: center;
+}
+
+
+
+/* Estilos para pantallas medianas (tabletas y pantallas más pequeñas) */
+@media (max-width: 992px) {
+  .card {
+    width: calc(50% - 10px); /* Ajusta el ancho a la mitad menos el espacio para margen */
+    margin: 5px; /* Espacio alrededor de la tarjeta */
+  }
+
+  .search {
+    flex-direction: column; /* Coloca los elementos en columna */
+    align-items: stretch; /* Asegura que los elementos ocupen el ancho completo */
+  }
+
+  .search .form-control,
+  .search .btn {
+    width: 100%; 
+    margin: 5px 0; 
+  }
+}
+
+/* Estilos para pantallas pequeñas (teléfonos móviles) */
+@media (max-width: 768px) {
+  .card {
+    width: 100%; 
+    margin: 5px 0; 
+  }
+
+  .search {
+    flex-direction: column; 
+    align-items: stretch; /* Asegura que los elementos ocupen el ancho completo */
+  }
+
+  .search .form-control,
+  .search .btn {
+    width: 100%; 
+    margin: 5px 0; 
+  }
 }

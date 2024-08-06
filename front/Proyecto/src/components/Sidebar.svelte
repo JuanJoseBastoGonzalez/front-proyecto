@@ -14,7 +14,6 @@
 <div class="pgi hlc">
       <p class="cp lb" on:click={toggProduct}>Productos</p>
       <p class="cp lb" on:click={isShowEm}>Clientes</p>
-      <p class="cp lb" on:click={isShowEm}>empleados</p>
       <p class="cp lb" on:click={isShowEm}>Pedidos</p>
       <p class="cp lb" on:click={isShowEm}>Pagos</p>
       <p class="cp lb " on:click={isShowEm}>Empleados</p>
@@ -26,7 +25,7 @@
       width: 13.5%;
       background-color: black;
       color: white;
-      height: 90vh;
+     height: auto;
    }
    .lb{
       text-align: center;

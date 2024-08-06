@@ -1,42 +1,53 @@
 :root {
-    --color1:  black; /* Negro */
-    --color2:  #d0a088 ; /* rosita */
-    --color3:  #6a6676; /* gris oscurito */
-    --color4:#938e98 ; /* Gris claro */
-    --color5:  #583b3d; /* marron */
-    --color6: #8c5b3f;/*marron claro*/
-    --color7:  #926457 ;/*rosita fucsica*/
-    --color8: #ffff;/*blanco*/
-  }
-.m0{
-    margin: 0;
-  
+    --blue: #05161A;
+    /* azul oscuro */
+    --greendark: #072E33;
+    /* verde oscuro */
+    --greenligth: #0C7075;
+    /* verde claro */
+    --greensea: #0F969C;
+    /* marino */
+    --violet: #6DA5C0;
+    /* violeta */
+    --pink: #926457;
+    /*rosita fucsica*/
+    --bluesea: #294D61;
+    /*azul mar*/
+    --white: white;
 }
-.fcb{
+*{
+
+  padding: 0; /* Elimina el padding */
+  margin: 0; /* Elimina el margen */
+  box-sizing: border-box; /* Incluye padding y border en el tamaño total del contenedor */
+}
+
+
+
+.fcb {
     display: flex;
     align-items: center;
     justify-content: space-between;
- 
+
 }
-.cp{
+
+.cp {
     cursor: pointer;
 }
-.fcc{
+
+.fcc {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.gcc{
+
+.gcc {
     display: grid;
     justify-content: center;
     align-items: center;
 
 }
 
-.lb{
+.lb {
     font-weight: bold;
-}
-.pgi {
-    height: 93.4vh;
-    font-family: Arial, sans-serif;
 }

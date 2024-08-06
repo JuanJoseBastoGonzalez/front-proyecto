@@ -17,8 +17,8 @@
   }
 </script>
 
-
-  <div class="nav fcb">
+<!-- 
+  <div class="nav ">
     <div>
       <button class="bl fcc cp"  on:click={toggShow}>
         <img class="lu" src={logoCampus} alt="User Image" />
@@ -37,6 +37,9 @@
   .nav {
     background-color: var(--color1);
     height: 10vh;
+    display: flex;
+    width: 100%
+
   }
 
   .lu {
@@ -45,7 +48,7 @@
   }
 
   .bl {
-    border-radius: 50%;
+
 
     width: 3rem;
     margin: 0.8rem;
@@ -53,7 +56,7 @@
     background-color: white;
     border: none;
    
-  }
+  } -->
 
 
-</style>
+<!-- </style> -->
