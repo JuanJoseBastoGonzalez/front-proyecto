@@ -151,25 +151,25 @@
  -->
 
 
- {#if showModal}
- <!-- Overlay to blur background -->
- <div class="overlay" on:click={closeModal}></div>
+{#if showModal}
+  <!-- Overlay to blur background -->
+  <div class="overlay" on:click={closeModal}></div>
 
- <!-- Modal content -->
- <div class="content">
-   <button class="close-btn" on:click={closeModal}>×</button>
-   {#if $showCustomer}
-     <Customer />
-   {:else if $showProdcts}
-     <Product />
-   {/if}
-   {#if !asf}
-     <Employe />
-     <Office />
-     <Orders />
-     <Pay />
-   {/if}
- </div>
+  <!-- Modal content -->
+  <div class="content">
+    <button class="close-btn" on:click={closeModal}>×</button>
+    {#if $showCustomer}
+      <Customer />
+    {:else if $showProdcts}
+      <Product />
+    {/if}
+    {#if !asf}
+      <Employe />
+      <Office />
+      <Orders />
+      <Pay />
+    {/if}
+  </div>
 {/if}
 
 
