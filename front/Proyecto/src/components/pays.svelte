@@ -1,18 +1,14 @@
 <script lang="ts">
   import axios from "axios";
   import { onMount } from "svelte";
-  import { instance, showProdcts } from "../stores/Stores";
+  import { showProdcts } from "../stores/Stores";
 
   let isActiveCrud: boolean = true;
   let errorMessage = "";
   let id: number;
-  let precio: number;
-  let dimencion_id: number;
-  let gama_producto_id: number;
-  let proveedor_id: number;
-  let stock_id: number;
-  let descripcion: string;
-  let nombre: string;
+  let monto: number;
+  let fecha_pago: string;
+  let pedido: string;
   let ElementSearch: string = "";
   let error: string = "";
   let loading: boolean = true;
@@ -49,19 +45,15 @@
   async function filterItem() {
     loading = true;
     try {
-      const response = await axios.get(`http://localhost:8091/api/productos/${id}`);
+      const response = await axios.get(`http://localhost:8091/api/pagos/${id}`);
       info = response.data.map((data: any) => ({
         id: data.id,
-        precio: data.precio,
-        dimencion_id: data.dimencion_id,
-        gama_producto_id: data.gama_producto_id,
-        proveedor_id: data.proveedor_id,
-        stock_id: data.stock_id,
-        descripcion: data.descripcion,
-        nombre: data.nombre,
+        monto: data.monto,
+        fecha_pago: data.fecha_pago,
+        pedido: data.pedido,
       }));
     } catch (error) {
-      error = "Error al buscar el producto.";
+      error = "Error al buscar el pago.";
     } finally {
       loading = false;
     }
@@ -69,16 +61,12 @@
 
   async function save() {
     loading = true;
-    const url = `http://localhost:8091/api/productos/${id}`;
+    const url = `http://localhost:8091/api/pagos/${id}`;
     const updatedData = {
       id: id,
-      precio: precio,
-      dimencion_id: dimencion_id,
-      gama_producto_id: gama_producto_id,
-      proveedor_id: proveedor_id,
-      stock_id: stock_id,
-      descripcion: descripcion,
-      nombre: nombre,
+      monto: monto,
+      fecha_pago: fecha_pago,
+      pedido: pedido,
     };
     try {
       const response = await axios.put(url, updatedData);
@@ -96,11 +84,11 @@
   async function deleteProduct() {
     loading = true;
     try {
-      await instance.delete(`productos/${id}`);
-      alert("Producto eliminado exitosamente");
+      await axios.delete(`http://localhost:8091/api/pagos/${id}`);
+      alert("Pago eliminado exitosamente");
     } catch (error) {
-      console.error("Error al eliminar el producto:", error);
-      errorMessage = "Error al eliminar el producto";
+      console.error("Error al eliminar el pago:", error);
+      errorMessage = "Error al eliminar el pago";
       alert(errorMessage);
     } finally {
       loading = false;
@@ -109,22 +97,18 @@
 
   async function createProduct() {
     loading = true;
-    const url = `http://localhost:8091/api/productos`;
-    const newProduct = {
-      precio: precio,
-      dimencion_id: dimencion_id,
-      gama_producto_id: gama_producto_id,
-      proveedor_id: proveedor_id,
-      stock_id: stock_id,
-      descripcion: descripcion,
-      nombre: nombre
+    const url = `http://localhost:8091/api/pagos`;
+    const newPayment = {
+      monto: monto,
+      fecha_pago: fecha_pago,
+      pedido: pedido,
     };
     try {
-      await axios.post(url, newProduct);
-      alert("Producto creado exitosamente");
+      await axios.post(url, newPayment);
+      alert("Pago creado exitosamente");
     } catch (error) {
-      console.error("Error al crear el producto:", error);
-      errorMessage = "Error al crear el producto";
+      console.error("Error al crear el pago:", error);
+      errorMessage = "Error al crear el pago";
       alert(errorMessage);
     } finally {
       loading = false;
@@ -149,7 +133,7 @@
         class="form-control me-2"
         bind:value={id}
         type="search"
-        placeholder="ID del producto"
+        placeholder="ID del pago"
         aria-label="Search"
       />
 
@@ -171,64 +155,29 @@
         <input id="id" bind:value={id} placeholder="Ingrese un ID" />
       </section>
       <section class="fcc">
-        <label for="precio">Precio</label>
+        <label for="monto">Monto</label>
         <input
-          id="precio"
+          id="monto"
           type="number"
-          bind:value={precio}
-          placeholder="Ingrese el precio"
+          bind:value={monto}
+          placeholder="Ingrese el monto"
         />
       </section>
       <section class="fcc">
-        <label for="dimencion_id">Dimensión ID</label>
+        <label for="fecha_pago">Fecha de Pago</label>
         <input
-          id="dimencion_id"
-          type="number"
-          bind:value={dimencion_id}
-          placeholder="Ingrese ID de dimensión"
+          id="fecha_pago"
+          type="date"
+          bind:value={fecha_pago}
+          placeholder="Ingrese la fecha de pago"
         />
       </section>
       <section class="fcc">
-        <label for="gama_producto_id">Gama Producto ID</label>
+        <label for="pedido">Pedido</label>
         <input
-          id="gama_producto_id"
-          type="number"
-          bind:value={gama_producto_id}
-          placeholder="Ingrese ID de gama de producto"
-        />
-      </section>
-      <section class="fcc">
-        <label for="proveedor_id">Proveedor ID</label>
-        <input
-          id="proveedor_id"
-          type="number"
-          bind:value={proveedor_id}
-          placeholder="Ingrese ID de proveedor"
-        />
-      </section>
-      <section class="fcc">
-        <label for="stock_id">Stock ID</label>
-        <input
-          id="stock_id"
-          type="number"
-          bind:value={stock_id}
-          placeholder="Ingrese ID de stock"
-        />
-      </section>
-      <section class="fcc">
-        <label for="descripcion">Descripción</label>
-        <textarea
-          id="descripcion"
-          bind:value={descripcion}
-          placeholder="Ingrese una descripción"
-        ></textarea>
-      </section>
-      <section class="fcc">
-        <label for="nombre">Nombre</label>
-        <input
-          id="nombre"
-          bind:value={nombre}
-          placeholder="Ingrese el nombre"
+          id="pedido"
+          bind:value={pedido}
+          placeholder="Ingrese el pedido"
         />
       </section>
     </div>
@@ -266,7 +215,7 @@
     overflow: hidden;
     margin-top: 20px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 
@@ -280,8 +229,7 @@
     margin-bottom: 0.5rem;
   }
 
-  .fcc input,
-  .fcc textarea {
+  .fcc input {
     overflow: hidden;
     padding: 0.75rem;
     border: 1px solid #ced4da;
@@ -292,8 +240,7 @@
     box-sizing: border-box;
   }
 
-  .fcc input:focus,
-  .fcc textarea:focus {
+  .fcc input:focus {
     border-color: #007bff;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
@@ -352,7 +299,7 @@
 
   @media (min-width: 993px) {
     .crud {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .cp2,

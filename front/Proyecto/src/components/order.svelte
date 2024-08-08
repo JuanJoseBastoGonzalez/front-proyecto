@@ -6,12 +6,13 @@
     let isActiveCrud: boolean = true;
     let errorMessage = "";
     let id: number;
-    let credito: number;
-    let cuenta: number;
-    let empleado: number;
-    let ubicacion: number;
-    let nombres: string;
-    let apellidos: string;
+    let cliente: number;
+    let estado:number;
+    let fecha_entregada:Date;
+    let fecha_esperada:Date;
+    let fecha_pedido:Date;
+    let comentarios:string;
+    let metodo_pago:string;
     let ElementSearch: string = "";
     let error: string = "";
     let loading: boolean = true;
@@ -48,14 +49,15 @@ function exit(){
                     `https://jsonplaceholder.typicode.com/posts/${ElementSearch}`,
                 );
                 info = response.data.map((data: any) => ({
+
                     id: data.id,
-                    credito: data.credito,
-                    cuenta: data.cuenta,
-                    empleado: data.empleado,
-                    ubicacion: data.ubicacion,
-                    nombres: data.nombres,
-                    apellidos: data.apellidos
-                    
+                    cliente: data.cliente,
+                    estado:data.estado,
+                    fecha_entregada:data.fecha_entregada,
+                    fecha_esperada:data.fecha_esperada,
+                    fecha_pedido: data.fecha_pedido,
+                    comentarios:data.comentarios,
+                    metodo_pago:data.metodo_pago
                 }));
             } catch (erro) {
                 error = "fail";
@@ -71,12 +73,13 @@ function exit(){
         const url = "https://jsonplaceholder.typicode.com/posts/1";
         const updatedData = {
             id: id,
-            credito:credito,
-            cuenta: cuenta,
-            empleado:empleado,
-            ubicacion:ubicacion,
-            nombres: nombres,
-            apellidos: apellidos
+            cliente:cliente,
+            estado:estado,
+            fecha_entregada:fecha_entregada,
+            fecha_esperada:fecha_esperada,
+            fecha_pedido:fecha_pedido,
+            comentarios:comentarios,
+            metodo_pago:metodo_pago
         };
         try {
             const response = await axios.put(url, updatedData);
@@ -155,57 +158,66 @@ function exit(){
     <input id="id" bind:value={id} placeholder="Ingrese un el Id del cliente" />
   </section>
   <section class="fcc">
-    <label for="credito">Credito</label>
+    <label for="cliente">Cliente</label>
     <input
-      id="credito"
-      bind:value={credito}
+      id="cliente"
+      bind:value={cliente}
       on:change={filterItem}
-      placeholder="Ingrese el id del credito"
+      placeholder="Ingrese el id del cliente dueño del pedido"
     />
   </section>
   <section class="fcc">
-    <label for="nombres">Nombres</label>
+    <label for="estado">Estado</label>
     <input
-      id="nombres"
-      bind:value={nombres}
+      id="estado"
+      bind:value={estado}
       on:change={filterItem}
-      placeholder="Ingrese nombres"
+      placeholder="Ingrese estado del pedido"
     />
   </section>
   <section class="fcc">
-    <label for="apellidos">Apellidos</label>
+    <label for="fecha_entregada">Fecha de entrega</label>
     <input
-      id="apellidos"
-      bind:value={apellidos}
+      id="fecha_entregada"
+      bind:value={fecha_entregada}
       on:change={filterItem}
-      placeholder="Ingrese apellidos"
+      placeholder="Ingrese la fecha de entrega "
     />
   </section>
   <section class="fcc">
-    <label for="cuenta">Cuenta</label>
+    <label for="fecha_esperada">Fecha esperada</label>
     <input
-      id="cuenta"
-      bind:value={cuenta}
+      id="fecha_esperada"
+      bind:value={fecha_esperada}
       on:change={filterItem}
-      placeholder="Ingrese cuenta"
+      placeholder="Ingrese la fecha esperada de entrega del pedido"
     />
   </section>
   <section class="fcc">
-    <label for="empleado">Empleado</label>
+    <label for="fecha_pedido">Fecha de pedido</label>
     <input
-      id="empleado"
-      bind:value={empleado}
+      id="fecha_pedido"
+      bind:value={fecha_pedido}
       on:change={filterItem}
-      placeholder="Ingrese empleado encargado"
+      placeholder="Ingrese la fecha de realizacion del pedido"
     />
   </section>
   <section class="fcc">
-    <label for="ubicacion">Ubicacion</label>
+    <label for="comentarios">comentarios</label>
     <input
-      id="ubicacion"
-      bind:value={ubicacion}
+      id="comentarios"
+      bind:value={comentarios}
       on:change={filterItem}
-      placeholder="Ingrese ubicacion"
+      placeholder="Ingrese comentarios"
+    />
+  </section>
+  <section class="fcc">
+    <label for="metodo_pago">metodo_pago</label>
+    <input
+      id="metodo_pago"
+      bind:value={metodo_pago}
+      on:change={filterItem}
+      placeholder="Ingrese metodo de pago"
     />
   </section>
 </div>

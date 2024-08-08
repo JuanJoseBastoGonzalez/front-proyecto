@@ -1,7 +1,7 @@
 <script lang="ts">
     import axios from "axios";
     import { onMount } from "svelte";
-    import { showProdcts } from "../stores/Stores";
+    import { instance, showProdcts } from "../stores/Stores";
 
     let showod;
     let isActiveCrud: boolean = true;
@@ -47,7 +47,7 @@
     async function filterItem() {
         onMount(async () => {
             try {
-                const response = await axios.get(
+                const response = await instance.get(
                     `https://jsonplaceholder.typicode.com/posts/${ElementSearch}`,
                 );
                 info = response.data.map((data: any) => ({
