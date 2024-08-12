@@ -1,18 +1,18 @@
-<script lang="ts">
-  import axios from "axios";
+
+ <script lang="ts">
   import { onMount } from "svelte";
   import { instance, showProdcts } from "../stores/Stores";
 
-  let isActiveCrud: boolean = true;
+  let isActiveCrud = true;
   let errorMessage = "";
-  let id: number;
-  let precio: number;
-  let dimencion_id: number;
-  let gama_producto_id: number;
-  let proveedor_id: number;
-  let stock_id: number;
-  let descripcion: string;
-  let nombre: string;
+  let id: number | null = null;
+  let precio: number | null = null;
+  let dimencion_id: number | null = null;
+  let gama_producto_id: number | null = null;
+  let proveedor_id: number | null = null;
+  let stock_id: number | null = null;
+  let descripcion: string = "";
+  let nombre: string = "";
   let ElementSearch: string = "";
   let error: string = "";
   let loading: boolean = true;
@@ -22,11 +22,12 @@
   let showDelete: boolean = true;
   let isActiveCreate: boolean = true;
 
+  // Funciones para cambiar la visibilidad de los formularios
   function toggleProduct() {
     isActiveCrud = !isActiveCrud;
   }
 
-  function crate() {
+  function createToggle() {
     isActiveCreate = !isActiveCreate;
   }
 
@@ -46,96 +47,157 @@
     $showProdcts = !$showProdcts;
   }
 
-  async function filterItem() {
-    loading = true;
+  async function createProduct() {
     try {
-      const response = await axios.get(`http://localhost:8091/api/productos/${id}`);
-      info = response.data.map((data: any) => ({
-        id: data.id,
-        precio: data.precio,
-        dimencion_id: data.dimencion_id,
-        gama_producto_id: data.gama_producto_id,
-        proveedor_id: data.proveedor_id,
-        stock_id: data.stock_id,
-        descripcion: data.descripcion,
-        nombre: data.nombre,
-      }));
-    } catch (error) {
-      error = "Error al buscar el producto.";
-    } finally {
-      loading = false;
-    }
-  }
+      const token = localStorage.getItem('token'); // Obtiene el token del local storage
 
-  async function save() {
-    loading = true;
-    const url = `http://localhost:8091/api/productos/${id}`;
-    const updatedData = {
-      id: id,
-      precio: precio,
-      dimencion_id: dimencion_id,
-      gama_producto_id: gama_producto_id,
-      proveedor_id: proveedor_id,
-      stock_id: stock_id,
-      descripcion: descripcion,
-      nombre: nombre,
-    };
-    try {
-      const response = await axios.put(url, updatedData);
-      info = response.data;
-      alert("Datos actualizados con éxito");
+      if (!token) {
+        console.error('Token de autenticación no encontrado');
+        errorMessage = 'Token de autenticación no encontrado';
+        return;
+      }
+
+      const producto = {
+        nombre: nombre,
+        gamaProducto: { id: gama_producto_id }, // Aquí solo se pasa el ID
+        dimension: { id: dimencion_id }, // Aquí solo se pasa el ID
+        proveedor: { id: proveedor_id }, // Aquí solo se pasa el ID
+        descripcion: descripcion,
+        stock: { id: stock_id }, // Aquí solo se pasa el ID
+        precio: precio
+      };
+
+      const response = await fetch('http://localhost:8091/api/productos', {
+        method: 'POST',
+        body: JSON.stringify(producto),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Agrega el token en el encabezado
+        }
+      });
+
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch (e) {
+          console.error('Error de análisis de respuesta:', e);
+          errorData = { message: 'Error desconocido' };
+        }
+        console.error('Error al crear producto:', errorData);
+        errorMessage = `Error ${response.status}: ${JSON.stringify(errorData)}`;
+        return;
+      }
+
+      const newProduct = await response.json();
+      console.log('Producto creado:', newProduct);
+      // Actualiza la UI o redirige según sea necesario
+
     } catch (error) {
-      console.error("Error al actualizar los datos:", error);
-      errorMessage = "Error al guardar los datos";
-      alert(errorMessage);
-    } finally {
-      loading = false;
+      console.error('Error de red:', error);
+      errorMessage = 'Error de red: ' + error;
     }
   }
 
   async function deleteProduct() {
-    loading = true;
-    try {
-      await instance.delete(`productos/${id}`);
-      alert("Producto eliminado exitosamente");
-    } catch (error) {
-      console.error("Error al eliminar el producto:", error);
-      errorMessage = "Error al eliminar el producto";
-      alert(errorMessage);
-    } finally {
-      loading = false;
-    }
-  }
+  try {
+    const token = localStorage.getItem('token');
 
-  async function createProduct() {
-    loading = true;
-    const url = `http://localhost:8091/api/productos`;
-    const newProduct = {
-      precio: precio,
-      dimencion_id: dimencion_id,
-      gama_producto_id: gama_producto_id,
-      proveedor_id: proveedor_id,
-      stock_id: stock_id,
-      descripcion: descripcion,
-      nombre: nombre
-    };
-    try {
-      await axios.post(url, newProduct);
-      alert("Producto creado exitosamente");
-    } catch (error) {
-      console.error("Error al crear el producto:", error);
-      errorMessage = "Error al crear el producto";
-      alert(errorMessage);
-    } finally {
-      loading = false;
+    if (!token) {
+      console.error('Token de autenticación no encontrado');
+      errorMessage = 'Token de autenticación no encontrado';
+      return;
     }
+
+    const response = await fetch(`http://localhost:8091/api/productos/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        console.error('Error de análisis de respuesta:', e);
+        errorData = { message: 'Error desconocido' };
+      }
+      console.error('Error al eliminar producto:', errorData);
+      errorMessage = `Error ${response.status}: ${JSON.stringify(errorData)}`;
+      return;
+    }
+
+    console.log('Producto eliminado');
+    // Actualiza la UI o redirige según sea necesario
+
+  } catch (error) {
+    console.error('Error de red:', error);
+    errorMessage = 'Error de red: ' + error;
   }
+}
+async function save() {
+  try {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.error('Token de autenticación no encontrado');
+      errorMessage = 'Token de autenticación no encontrado';
+      return;
+    }
+
+    const producto = {
+      nombre: nombre,
+      gamaProducto: { id: gama_producto_id },
+      dimension: { id: dimencion_id },
+      proveedor: { id: proveedor_id },
+      descripcion: descripcion,
+      stock: { id: stock_id },
+      precio: precio
+    };
+
+    const response = await fetch(`http://localhost:8091/api/productos/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(producto),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      let errorData = { message: 'Error desconocido' };
+
+      try {
+        // Intenta analizar la respuesta JSON si está disponible
+        errorData = await response.json();
+      } catch (e) {
+        console.error('Error de análisis de respuesta:', e);
+      }
+
+      console.error('Error al actualizar producto:', errorData);
+      errorMessage = `Error ${response.status}: ${errorData.message || 'Error desconocido'}`;
+      return;
+    }
+
+    // Si la respuesta es exitosa, puedes tratar con los datos de respuesta aquí
+    console.log('Producto actualizado');
+    // Actualiza la UI o redirige según sea necesario
+
+  } catch (error) {
+    console.error('Error de red:', error);
+    errorMessage = 'Error de red: ' + error;
+  }
+}
+
 </script>
 
 <div class="cpw gcc">
   {#if isActiveCrud}
     <div>
-      <button class="cp3" on:click={crate}>Crear</button>
+      <button class="cp3" on:click={createToggle}>Crear</button>
       <button class="cp3" on:click={search}>Buscar</button>
       <button class="cp3" on:click={update}>Actualizar</button>
       <button class="cp3" on:click={deleteToggle}>Eliminar</button>
@@ -168,7 +230,7 @@
     <div class="crud">
       <section class="fcc">
         <label for="id">ID</label>
-        <input id="id" bind:value={id} placeholder="Ingrese un ID" />
+        <input id="id" type="number" bind:value={id} placeholder="Ingrese un ID" />
       </section>
       <section class="fcc">
         <label for="precio">Precio</label>
@@ -233,7 +295,7 @@
       </section>
     </div>
     {#if !isActiveCreate}
-      <button class="cp2" on:click={crate}>Volver</button>
+      <button class="cp2" on:click={createToggle}>Volver</button>
       <button class="cp2" on:click={save}>Guardar</button>
     {/if}
     {#if !showUpdate}
@@ -273,92 +335,59 @@
   .fcc {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
-  .fcc label {
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .fcc input,
-  .fcc textarea {
-    overflow: hidden;
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    color: #495057;
-    background-color: #fff;
-    box-sizing: border-box;
-  }
-
-  .fcc input:focus,
-  .fcc textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-  }
-
-  .cp3 {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
+  .cp {
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     font-size: 1rem;
     transition:
       background-color 0.3s,
       box-shadow 0.3s;
-    text-align: center;
-    overflow-y: hidden;
   }
 
-  .cp3:hover,
-  .cp2:hover {
-    background-color: #0056b3;
+  .cp3 {
+    margin-top: 10px;
+    height: 50px;
+    width: 100%;
+    background-color: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 1rem;
+    transition:
+      background-color 0.3s,
+      box-shadow 0.3s;
   }
 
-  @media (max-width: 768px) {
-    .crud {
-      grid-template-columns: 1fr;
-    }
-
-    .cp2,
-    .cp3 {
-      height: 40px;
-      font-size: 0.875rem;
-    }
-
-    .fcc {
-      flex-direction: column;
-    }
+  .gcc {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
   }
 
-  @media (min-width: 769px) and (max-width: 992px) {
-    .crud {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .cp2,
-    .cp3 {
-      height: 45px;
-      font-size: 0.95rem;
-    }
+  .f {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
-  @media (min-width: 993px) {
-    .crud {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .cp2,
-    .cp3 {
-      height: 50px;
-      font-size: 1rem;
-    }
+  .cpw {
+    width: 100%;
   }
 </style>

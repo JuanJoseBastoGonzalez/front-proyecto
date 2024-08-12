@@ -15,6 +15,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "my-node-app": "file:",
     "node": "^20.16.0",
     "stack": "^0.1.0"
   },
